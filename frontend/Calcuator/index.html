@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css"/>
+        
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td colspan="4">
+                    <input type="text" id="inputBox" value="0"/>
+                </td>
+                
+
+            </tr>
+
+            <tr>
+                <!--We are calling the function that is defined in our js page.-->
+                <td id="digitBtn" onclick="digitBtnClicked(7)">7 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(8)">8 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(9)">9 </td>
+                <td id="operatorBtn" onclick="operatorButton(`x`)">x </td>
+            </tr>
+
+            <tr>
+                <td id="digitBtn" onclick="digitBtnClicked(4)">4 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(5)">5 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(6)">6 </td>
+                <td id="operatorBtn" onclick="operatorButton(`-`)">- </td>
+
+            </tr>
+
+            <tr>
+                <td id="digitBtn" onclick="digitBtnClicked(1)">1 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(2)">2 </td>
+                <td id="digitBtn" onclick="digitBtnClicked(3)">3 </td>
+                <td id="operatorBtn" onclick="operatorButton(`+`)">+ </td>
+            </tr>
+
+            <tr>
+                <td id="digitBtn" colspan="2" onclick="digitBtnClicked(0)">0</td> <!--We are spanning 0 to have a column of 2 instead of 1-->
+                <td id="acBtn" colspan="1" onclick="acButton()">AC </td>
+                <td id="operatorBtn" onclick="operatorButton(`/`)">/ </td>
+            </tr>
+
+            <tr>
+                <td id="operatorBtn" colspan="4" onclick="equalsBtn()">=</td>
+            </tr>
+
+
+
+        </table>
+
+        <script src="index.js"></script>
+    </body>
+</html>
