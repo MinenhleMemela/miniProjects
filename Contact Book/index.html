@@ -1,0 +1,56 @@
+ <!DOCTYPE html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Contact Book</title>
+    </head>
+
+    <!--The bofy will automaticallly load the contacts from the database-->
+    <body onload="fetchContacts()">
+        <div id="table">Contacts Loading...</div>
+        <button id="refresh" type="button">Refresh</button>
+        <button id="addContact" type="button">Add Contact</button>
+        
+        <script src="config.js"></script>
+        <script>
+            //When the uder clicks the refersh button, thw fetchContact function will be evoked and fetch all the contacts including new possible ones.
+            document.getElementById("refresh").addEventListener('click', fetchContacts);
+
+            function fetchContacts()
+            {
+                //FEtches the full path where the contacts are stored.
+                fetch(rootPath + "controller/get-contacts/")
+                .then(function(response){ //Using the path, convert all the contacts into a json file.
+                    return response.json();
+                })
+                .then(function(data){ //After converting the data, now display the data.
+                    displayOutput(data);
+                    //console.log(data);
+                })
+            }
+
+            function displayOutput(data)
+            {
+                output = "<table>";
+
+                for(a in data)
+                {
+                    //Our data is an array, so we are accessing the data number a adn get the image which is saved as avatar. [img]
+                    output += `
+                        <tr>
+                            
+                            <td> <img src="${rootPath}controller/uploads/${data[a].avatar}" width="40"> </td>
+                            <td><h5> ${data[a].firstname} </h5> </td>
+                            <td><h5> ${data[a].lastname} </h5> </td>
+                        </tr>
+                    `
+                    
+                }
+                output += "</table>"
+                document.getElementById("table").innerHTML = output;
+            }
+
+
+        </script>
+    </body>
+ </html>
