@@ -27,7 +27,7 @@
                         })
                         .then(function (data) {
                             
-                            if (data == "1") {
+                            if (data === "1") {
                                 localStorage.setItem("apiKey", apiKey);
                                 window.open("index.html", "_self");
                             } else {

@@ -7,19 +7,23 @@
 
 
     <body>
-        <form action="">
-            <input type="text" id="fname" placeholder="Please Enter First Name" required> <br>
-            <input type="text" id="lname" placeholder="Please Enter Last Name" required> <br>
-            <input type="text" id="email" placeholder="Please Enter Email" required> <br>
-            <label for="imageInput">Select a profile picture: </label>
-            <input type="file" id="imageInput" accept="image/*" required> <br>
-            <button>
-                Submit
-            </button>
+        <form action="" id="editForm">
+            <input type="text" id="firstname" name="firstname" placeholder="Please Enter First Name" required> <br>
+            <input type="text" id="lastname" name="lastname" placeholder="Please Enter Last Name" required> <br>
+            <input type="text" id="email" name="email" placeholder="Please Enter Email" required> <br>
+            <label for="avater">Select a profile picture: </label>
+            <input type="file" id="avatar" name="avatar" accept="image/*" required> <br>
+            <button type="button" id="submitForm"> Submit </button>
 
         </form>
-        
+        <br>
+        <button type="button" id="homeLink">Home</button>
 
+        <script src="config.js"></script>
+
+        <script>
+            
+        </script>
         
     </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Phone Book</title>
+    </head>
+
+
+    <body>
+        <form action="" id="editForm">
+            <input type="text" id="firstname" name="firstname" placeholder="Please Enter First Name" required> <br>
+            <input type="text" id="lastname" name="lastname" placeholder="Please Enter Last Name" required> <br>
+            <input type="text" id="email" name="email" placeholder="Please Enter Email" required> <br>
+            <input type="text" id="mobile" name="mobile" placeholder="Please Enter Mobile" required> <br>
+            <label for="avater">Select a profile picture: </label>
+            <input type="file" id="avatar" name="avatar" accept="image/*" required> <br>
+            <button type="button" id="submitForm"> Submit </button>
+
+        </form>
+        <br>
+        <button type="button" id="homeLink">Home</button>
+
+        <script src="config.js"></script>
+
+        <script>
+            /**
+             * Adding the event listeners
+             * When the button is clicked, call the respective function, homelink/submitForm
+            */
+
+            document.getElementById("submitForm").addEventListener('click', submitForm);
+
+            document.getElementById("homeLink").addEventListener('click', homeLink);
+
+            /**
+             * Now we have the form in place, let's creaye a function that will senf the form
+             * parameter e is for preventing any default behaviour
+            */
+
+            function submitForm(e)
+            {
+                console.log("Submit button clicked");
+                e.preventDefault(); //Submit the data and do not reload the page without sending data.
+
+                const form = new FormData(document.querySelector('#editForm'))
+                form.append('apiKey', apiKey)//We adding anither bit of information to teh form that already has other information/data.
+
+                fetch(rootPath + 'controller/insert-contact/', {
+                    method: 'POST',
+                    body: form
+                })
+                .then(function(response)
+                {
+                    return response.text();
+                })
+                .then(function(data)
+                {
+                    if(data === 1)
+                    {
+                        alert("Contact Added")
+                        //Link back to home page
+                        homeLink();
+                    }
+                    else
+                    {
+                        alert(data);
+                        //Link back to home page
+                    }
+                    
+
+                })
+                .catch(function(error)
+                {
+                    console.error("Error during fetch:", error);
+                });
+            }
+
+            function homeLink()
+            {
+                /**
+                 * Javascript built in method, that opens up a new window.
+                 * "_self" prevents opening up the home bape in a new window
+                 * */
+ 
+                console.log("Home button clicked");
+                window.location.href = "index.html";
+            }
+            
+        </script>
+        
+    </body>
+</html>

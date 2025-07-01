@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body onload="getContact()">
+        <div id="avatarImage">
+
+        </div>
+
+        <form id="editForm" action="">
+            <input type="text" id="firstname" name="firstname" placeholder="Please Enter First Name" readonly> <br>
+            <input type="text" id="lastname" name="lastname" placeholder="Please Enter Last Name" readonly> <br>
+            <input type="text" id="email" name="email" placeholder="Please Enter Email" readonly> <br>
+            <input type="text" id="mobile" name="mobile" placeholder="Please Enter Mobile" readonly> <br>
+            <label for="avatar" id="avatarLabel" hidden>Change the image   </label>
+            <input type="file" id="avatar" name="avatar" hidden > <br>
+            <button type="button" id="submitForm" hidden> Submit </button>
+
+
+
+        </form>
+
+        <br>
+        <button id="homeLink" type="button">Home</button>
+        <button id="editContact" type="button">Edit</button>
+        <button id="deleteContact" type="button">Delete</button>
+        
+
+        <script src="config.js"></script>
+
+        <script>
+            /**
+             * Even Listeners
+            */
+            document.getElementById("homeLink").addEventListener('click', homeLink);
+            document.getElementById("editContact").addEventListener('click', editContact);
+            document.getElementById("submitForm").addEventListener('click', submitForm)
+            document.getElementById("deleteContact").addEventListener('click', deleteContact);
+
+            var id = getId();
+            console.log("The id is:" + id)
+            function getId()
+            {
+                var url = window.location.href; //Js property that returns the full property of the url
+                var pos = url.search("="); //We get the position of the = sign
+                var id = url.slice(pos+1); //Simply slicing the url, and leaving onl thet position passed
+
+                return id;
+            }
+
+            function getContact()
+            {
+                fetch(rootPath+"controller/get-contacts/?id=" + id)
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    //display the contact info
+                    displayOutput(data);
+                    console.log(data);
+                })
+            }
+
+            function homeLink()
+            {
+                window.open("index.html", "_self")
+            }
+
+            function displayOutput(data)
+            {
+                //Constructing the image url
+                avatarImg = `<img src="${rootPath}/controller/uploads/${data[0].avatar}" width="200" />`
+                
+                document.getElementById("avatarImage").innerHTML = avatarImg; //Complete url of the image, we used unnerHTML so that we can be able to display the HTML format.
+                document.getElementById("firstname").value = data[0].firstname; //lastname, email, mobile
+                document.getElementById("lastname").value = data[0].lastname;
+                document.getElementById("mobile").value = data[0].mobile;
+                document.getElementById("email").value = data[0].email;
+                //The reason we are onoly using data[0] is because we will only receive one item which will bw item 0
+                //WE can also use document.getElementById("firstname").value = data.firstname;
+            }
+
+            function editContact()
+            {
+                document.getElementById("firstname").readOnly = false; //Disabling the readonly to false.
+                document.getElementById("lastname").readOnly = false;
+                document.getElementById("mobile").readOnly= false;
+                document.getElementById("email").readOnly= false;
+                document.getElementById("avatarLabel").hidden = false; //I wrote avatarLabel as avatarLAbel and that affected the whole following code, I should be aware if teh typos.
+                document.getElementById("avatar").hidden = false;
+                document.getElementById("submitForm").hidden = false;
+
+            }e
+
+            function submitForm(e)
+            {
+                    e.preventDefault();
+
+                    const form = new FormData(document.querySelector("#editForm")); //editForm is the ID of the form
+
+                    //Injecting the API KEY and the ID
+                    form.append('apiKey', apiKey);
+                    form.append('id', id);
+                   
+                    //Calling teh fetch function and sending the from application.
+                fetch(rootPath + 'controller/edit-contact/', {
+                method: 'POST',
+                body: form
+                })
+                .then(function(response)
+                {
+                    return response.text();
+                })
+                .then(function(data)
+                {
+                    if(data == "1")
+                    {
+                        alert("Contact Edited")
+                        //Link back to home page
+                        homeLink();
+                    }
+                    else
+                    {
+                        alert("Wat gaanan?: " ,data);
+                        //Link back to home page
+                    }
+                    
+
+                })
+                .catch(function(error)
+                {
+                    console.log("The error is:", error);
+                });
+
+            }
+
+            function deleteContact()
+            {
+                var confirmDelete = confirm("Delete Contact. Are you sure?"); //THis is the confirm box
+                if(confirmDelete == true)
+                {
+                    //DElete the contact by using fetch
+                    fetch(rootPath + 'controller/delete-contact/?id=' + id)
+                    .then(function(response){
+                        return response.text();
+                    })
+                    .then(function(data){
+                        if(data == "1")
+                        {
+                           homeLink(); 
+                        }
+                        else
+                        {
+                            alert(data);
+                        }
+                    })
+                }
+            }
+            
+
+        </script>
+    </body>
+</html>
